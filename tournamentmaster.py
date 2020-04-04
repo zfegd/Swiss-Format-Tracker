@@ -2,6 +2,8 @@ import drawlibrary as dl
 import naivesim as ns
 
 # todo - edit functions to accomodate knockoutstage procedure
+# todo - automate this more?
+# todo - print names with records
 
 class Tournamentmaster:
     def __init__(self, players):
@@ -36,8 +38,9 @@ class Tournamentmaster:
         return self.matchups
 
     def simulate_round(self):
-        self.latest_winners = ns.simulate_round(self.matchups)
+        self.latest_winners = ns.generate_results(self.matchups)
         self.__update_records()
+        self.print_results()
 
     def __update_records(self):
         self.games_played += 1
@@ -79,9 +82,26 @@ class Tournamentmaster:
             players_by_losses[ploss] += [player]
         return players_by_losses
 
+    # assume that winners list and matchups match up
     def print_results(self):
-        pass
+        for i in range(0,len(self.matchups)):
+            (p1,p2) = self.matchups[i]
+            winner = self.latest_winners[i]
+            if winner is p1:
+                print(str(p1.get_name()) + " BEATS " + str(p2.get_name()))
+            else:
+                print(str(p2.get_name()) + " BEATS " + str(p1.get_name()))
 
     def print_matchups(self):
         for (p1, p2) in self.matchups:
             print(str(p1.get_name()) + " VS " + str(p2.get_name()))
+
+    def print_all_records(self):
+        for player in self.active_players:
+            name, team, record = player.get_profile()
+            (wins, losses) = record
+            print(name + " : (" +  str(wins) +"-"+str(losses)+")")
+        for player in self.eliminated_players:
+            name, team, record = player.get_profile()
+            (wins, losses) = record
+            print(name + " : (" +  str(wins) +"-"+str(losses)+")")

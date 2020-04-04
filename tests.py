@@ -13,5 +13,9 @@ def test_swiss_stage():
     tn.draw_matchups()
     print("FIRST ROUND:")
     tn.print_matchups()
+    print("~~ SIMULATING ROUND ~~")
+    tn.simulate_round()
+    print("~~ RECORDS AFTER ROUND 1")
+    tn.print_all_records()
 
 test_swiss_stage()
