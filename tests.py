@@ -18,5 +18,8 @@ def test_swiss_stage():
         tn.simulate_round()
         print("~~ RECORDS AFTER ROUND ~~")
         tn.print_all_records()
+    print("KNOCKOUT DRAW")
+    tn.draw_knockout_brackets()
+    tn.print_round_of_16()
 
 test_swiss_stage()

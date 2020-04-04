@@ -37,6 +37,9 @@ class Tournamentmaster:
     def get_matchups(self):
         return self.matchups
 
+    def get_knockout_brackets(self):
+        return self.knockoutbracket
+
     def simulate_round(self):
         self.latest_winners = ns.generate_results(self.matchups)
         self.__update_records()
@@ -82,6 +85,10 @@ class Tournamentmaster:
             players_by_losses[ploss] += [player]
         return players_by_losses
 
+    def draw_knockout_brackets(self):
+        players_by_losses = self.__sort_by_records()
+        self.knockoutbracket = dl.draw_knockout_brackets(players_by_losses[0],players_by_losses[1],players_by_losses[2])
+
     # assume that winners list and matchups match up
     def print_results(self):
         for i in range(0,len(self.matchups)):
@@ -111,3 +118,11 @@ class Tournamentmaster:
             name, team, record = player.get_profile()
             (wins, losses) = record
             print(name + " : (" +  str(wins) +"-"+str(losses)+")")
+
+    def print_round_of_16(self):
+        index = 1
+        for bracket in self.knockoutbracket:
+            print("Section "+str(index)+":")
+            for (p1,p2) in bracket:
+                print(str(p1.get_name()) + " VS " + str(p2.get_name()))
+            index +=1
