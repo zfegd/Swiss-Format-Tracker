@@ -2,8 +2,8 @@ import drawlibrary as dl
 import naivesim as ns
 
 # todo - edit functions to accomodate knockoutstage procedure
-# todo - automate this more?
-# todo - print names with records
+# todo - automate this more, rather than in test?
+# todo - sort prints by records
 
 class Tournamentmaster:
     def __init__(self, players):
@@ -102,6 +102,12 @@ class Tournamentmaster:
             (wins, losses) = record
             print(name + " : (" +  str(wins) +"-"+str(losses)+")")
         for player in self.eliminated_players:
+            name, team, record = player.get_profile()
+            (wins, losses) = record
+            print(name + " : (" +  str(wins) +"-"+str(losses)+")")
+
+    def print_active_records(self):
+        for player in self.active_players:
             name, team, record = player.get_profile()
             (wins, losses) = record
             print(name + " : (" +  str(wins) +"-"+str(losses)+")")

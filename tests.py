@@ -10,12 +10,13 @@ def test_swiss_stage():
     for i in range(0,32):
         players += [playerprofile.Player(NAMES[i],TEAM)]
     tn = tournamentmaster.Tournamentmaster(players)
-    tn.draw_matchups()
-    print("FIRST ROUND:")
-    tn.print_matchups()
-    print("~~ SIMULATING ROUND ~~")
-    tn.simulate_round()
-    print("~~ RECORDS AFTER ROUND 1")
-    tn.print_all_records()
+    for i in range(5):
+        tn.draw_matchups()
+        print("Current ROUND:")
+        tn.print_matchups()
+        print("~~ SIMULATING ROUND ~~")
+        tn.simulate_round()
+        print("~~ RECORDS AFTER ROUND ~~")
+        tn.print_all_records()
 
 test_swiss_stage()
