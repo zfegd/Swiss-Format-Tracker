@@ -1,7 +1,7 @@
 import drawlibrary as dl
 import naivesim as ns
 
-# todo - edit functions to accomodate knockoutstage procedure
+# todo - refactor functions to accomodate knockoutstage procedure rather than separate functions
 # todo - automate this more, rather than in test?
 # todo - sort prints by records
 
@@ -89,6 +89,25 @@ class Tournamentmaster:
         players_by_losses = self.__sort_by_records()
         self.knockoutbracket = dl.draw_knockout_brackets(players_by_losses[0],players_by_losses[1],players_by_losses[2])
 
+    def simulate_ko_round(self):
+        bracketsleft = len(self.knockoutbracket)
+        # each bracket has 2 matches, except if 1 bracket left
+        if bracketsleft is 1:
+            # check if semis or final
+            pass
+        # else bracket is 2 or 4 - refactor below to divide and conquer
+        elif bracketsleft is 2:
+            pass
+        elif bracketsleft is 4:
+            for bracket in self.knockoutbracket:
+                winners = ns.generate_results(bracket)
+            pass
+        else:
+            print("ERROR")
+
+    def __update_KO_bracket():
+        pass
+
     # assume that winners list and matchups match up
     def print_results(self):
         for i in range(0,len(self.matchups)):
@@ -119,6 +138,7 @@ class Tournamentmaster:
             (wins, losses) = record
             print(name + " : (" +  str(wins) +"-"+str(losses)+")")
 
+    # refactor below to print any KO round
     def print_round_of_16(self):
         index = 1
         for bracket in self.knockoutbracket:
@@ -126,3 +146,6 @@ class Tournamentmaster:
             for (p1,p2) in bracket:
                 print(str(p1.get_name()) + " VS " + str(p2.get_name()))
             index +=1
+
+    def print_KO_results():
+        pass
