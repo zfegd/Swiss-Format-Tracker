@@ -3,7 +3,7 @@ import naivesim as ns
 
 # todo - edit functions to accomodate knockoutstage procedure
 
-class tournamentmaster:
+class Tournamentmaster:
     def __init__(self, players):
         # assume number of players is correct, and always 32 -> so max 5 rounds
         self.active_players = players
@@ -36,14 +36,31 @@ class tournamentmaster:
         return self.matchups
 
     def simulate_round(self):
-        self.winners = ns.simulate_round(self.matchups)
+        self.latest_winners = ns.simulate_round(self.matchups)
         self.__update_records()
 
     def __update_records(self):
         self.games_played += 1
-        # update player profiles
-        # update active player list
-        # update if knockoutstage
+        for i in range(0,len(self.matchups)):
+            (p1,p2) = self.matchups[i]
+            winner = self.latest_winners[i]
+            if winner is p1:
+                p1.update_record(True)
+                p2.update_record(False)
+                (p2w, p2l) = p2.get_record()
+                if p2l > 2:
+                    self.active_players.remove(p2)
+                    self.eliminated_players.append(p2)
+            else:
+                p2.update_record(True)
+                p1.update_record(False)
+                (p1w, p1l) = p1.get_record()
+                if p1l > 2:
+                    self.active_players.remove(p1)
+                    self.eliminated_players.append(p1)
+        if self.games_played is 5:
+            self.knockoutstage = True
+            # todo - handle knockoutstage scenario
 
     def draw_matchups(self):
         players_by_losses = self.__sort_by_records()
@@ -61,3 +78,10 @@ class tournamentmaster:
             (pwin, ploss) = player.get_record()
             players_by_losses[ploss] += [player]
         return players_by_losses
+
+    def print_results(self):
+        pass
+
+    def print_matchups(self):
+        for (p1, p2) in self.matchups:
+            print(str(p1.get_name()) + " VS " + str(p2.get_name()))
