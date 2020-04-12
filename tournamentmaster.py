@@ -93,20 +93,22 @@ class Tournamentmaster:
         bracketsleft = len(self.knockoutbracket)
         # each bracket has 2 matches, except if 1 bracket left
         if bracketsleft is 1:
-            # check if semis or final
-            pass
-        # else bracket is 2 or 4 - refactor below to divide and conquer
-        elif bracketsleft is 2:
-            pass
-        elif bracketsleft is 4:
+            if len(self.knockoutbracket[0]) is 2:
+                winners = ns.generate_results(self.knockoutbracket[0])
+                self.knockoutbracket = [[(winners[0],winners[1])]]
+            else:
+                winner = ns.generate_results(self.knockoutbracket[0])[0]
+                print("YOUR WINNER IS " + str(winner.get_name()))
+        else:
+            allwinners = []
             for bracket in self.knockoutbracket:
                 winners = ns.generate_results(bracket)
-            pass
-        else:
-            print("ERROR")
-
-    def __update_KO_bracket():
-        pass
+                allwinners += winners
+            newbrackets = []
+            newnumbrackets = int(bracketsleft/2)
+            for i in range(0,newnumbrackets):
+                newbrackets += [[(allwinners[4*i+0],allwinners[4*i+1]),(allwinners[4*i+2],allwinners[4*i+3])]]
+            self.knockoutbracket = newbrackets
 
     # assume that winners list and matchups match up
     def print_results(self):
@@ -138,14 +140,25 @@ class Tournamentmaster:
             (wins, losses) = record
             print(name + " : (" +  str(wins) +"-"+str(losses)+")")
 
-    # refactor below to print any KO round
-    def print_round_of_16(self):
+    def print_ko_draw(self):
         index = 1
+        numbrackets = len(self.knockoutbracket)
         for bracket in self.knockoutbracket:
-            print("Section "+str(index)+":")
+            if numbrackets is 1:
+                if len(self.knockoutbracket[0]) is 1:
+                    print("YOUR FINAL:")
+                else:
+                    print("SEMIS:")
+            elif numbrackets is 2:
+                if index is 1:
+                    print("TOP HALF:")
+                else:
+                    print("BOTTOM HALF:")
+            else:
+                print("Section "+str(index)+":")
             for (p1,p2) in bracket:
                 print(str(p1.get_name()) + " VS " + str(p2.get_name()))
             index +=1
 
-    def print_KO_results():
+    def print_KO_results(self):
         pass
